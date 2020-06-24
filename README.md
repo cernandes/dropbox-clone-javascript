@@ -21,6 +21,7 @@ O projeto é um exercício prático do curso que visa a prática de Javascript p
 - NodeJS
 - NPM
 - Express-Generator
+- Formidable
 
 ### Instalação
 Clone do escopo do projeto através do repositório da [HCode treinamentos](https://github.com/hcodebr/curso-javascript-projeto-dropbox-clone).
@@ -50,6 +51,11 @@ express --ejs app
 navegar até a pasta que foi criada (app) e instalar as dependências do projeto
 ```
 npm install
+```
+Instalação do formidable para manipular uploads de arquivos
+
+```
+npm install --save formidable
 ```
 ### Autor
 [@cernandes](https://github.com/cernandes)
