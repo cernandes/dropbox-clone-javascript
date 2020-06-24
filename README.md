@@ -9,9 +9,10 @@ O projeto é um exercício prático do curso que visa a prática de Javascript p
 ![DropBox Clone](https://firebasestorage.googleapis.com/v0/b/hcode-com-br.appspot.com/o/DropBoxClone.jpg?alt=media&token=d59cad0c-440d-4516-88f2-da904b9bb443)
 
 ### Pré requisitos
-- Editor de texto [VSCode](https://code.visualstudio.com/)
-- [NodeJS](https://nodejs.org/en/)
-- [NPM](https://www.npmjs.com/) 
+- [VSCode](https://code.visualstudio.com/) ou qualquer outro editor de texto.
+- [NodeJS](https://nodejs.org/en/) instalado na máquina de desenvolvimento.
+- [NPM](https://www.npmjs.com/), normalmente vem junto da versões atuais do NodeJSS.
+- [Firebase](https://firebase.google.com/?hl=pt-br), necessita criar uma conta Google para usar o Firebase.
 
 ### Instalação
 - Clone do escopo do projeto através do repositório da [HCode treinamentos](https://github.com/hcodebr/curso-javascript-projeto-dropbox-clone).
