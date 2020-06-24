@@ -13,24 +13,14 @@ O projeto é um exercício prático do curso que visa a prática de Javascript p
 - [NodeJS](https://nodejs.org/en/)
 - [NPM](https://www.npmjs.com/) 
 
-### Ferramentas utilizadas
-- HTML5
-- CSS3
-- JavaScript
-- Bootstrap4
-- NodeJS
-- NPM
-- Express-Generator
-- Formidable
-
 ### Instalação
-Clone do escopo do projeto através do repositório da [HCode treinamentos](https://github.com/hcodebr/curso-javascript-projeto-dropbox-clone).
+- Clone do escopo do projeto através do repositório da [HCode treinamentos](https://github.com/hcodebr/curso-javascript-projeto-dropbox-clone).
 
 ```
 git clone https://github.com/hcodebr/curso-javascript-projeto-dropbox-clone.git
 
 ```
-Instalação do [Bower](https://bower.io/) de forma global para baixar dependências do front-end que vão configurar o layout da aplicação
+- O projeto necessita da instalação do [Bower](https://bower.io/) para baixar dependências do front-end que vão configurar o layout da aplicação
 
 ```
 npm install bower -g
