@@ -1,6 +1,6 @@
 # DropBox Clone
 
-Projeto desenvolvido como exemplo prático do [Curso Completo de JavaScript](https://www.udemy.com/course/javascript-curso-completo/) na [Udemy](https://www.udemy.com/).
+Projeto desenvolvido como exemplo prático do Curso Completo de JavaScript na [Udemy](https://www.udemy.com/).
 
 ### Sobre
 O projeto é um exercício prático do curso que visa a prática de Javascript para a implementação da principais funcionalidades da aplicação Dropbox
@@ -45,17 +45,8 @@ bower install
 npm install -g express-generator
 
 ```
-```
-express --ejs app
-```
-navegar até a pasta que foi criada (app) e instalar as dependências do projeto
-```
-npm install
-```
-Instalação do formidable para manipular uploads de arquivos
 
-```
-npm install --save formidable
-```
+`npm install --save formidable` formidable para manipular uploads de arquivos
+
 ### Autor
 [@cernandes](https://github.com/cernandes)
