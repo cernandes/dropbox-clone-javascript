@@ -1,7 +1,11 @@
 class DropBoxController {
 
     constructor() {
+
+        this.currentFolder = ['Hcode'];
+
         this.onSelectionChange = new Event('selectionChange');
+
         this.btnSendFileEl = document.querySelector('#btn-send-file');
         this.inputFilesEl = document.querySelector('#files');
         this.snackModalEl = document.querySelector('#react-snackbar-root');
@@ -9,6 +13,7 @@ class DropBoxController {
         this.fileNameEL = this.snackModalEl.querySelector('.filename');
         this.timeLeftEl = this.snackModalEl.querySelector('.timeleft');
         this.listFilesEL = document.querySelector('#list-of-files-and-directories');
+
         this.btnNewFolder = document.querySelector('#btn-new-folder');
         this.btnRename = document.querySelector('#btn-rename');
         this.btnDelete = document.querySelector('#btn-delete');
@@ -63,6 +68,21 @@ class DropBoxController {
     }
 
     initEvents() {
+
+        this.btnNewFolder.addEventListener('click', event => {
+
+            let name = prompt('Nome da nova pasta:');
+
+            if (name) {
+
+                this.getFirebaseRef().push().set({
+                    name,
+                    type: 'folder',
+                    path: this.currentFolder.join('/')
+                });
+            }
+
+        });
 
         this.btnDelete.addEventListener('click', event => {
 

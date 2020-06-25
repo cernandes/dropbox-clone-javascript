@@ -15,7 +15,7 @@ router.delete('/file', (req, res) => {
     keepExtensions: true
   });
 
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, (err, fields, files) => {git 
 
     let path = './' + fields.path;
 
