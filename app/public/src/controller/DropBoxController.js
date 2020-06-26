@@ -296,11 +296,11 @@ class DropBoxController {
                     </svg>
                         `;
                 break;
+
             case 'image/jpeg':
             case 'image/jpg':
             case 'image/png':
             case 'image/gif':
-
                 return `
                     <svg version="1.1" id="Camada_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="160px" height="160px" viewBox="0 0 160 160" enable-background="new 0 0 160 160" xml:space="preserve">
                     <filter height="102%" width="101.4%" id="mc-content-unknown-large-a" filterUnits="objectBoundingBox" y="-.5%" x="-.7%">
@@ -379,6 +379,7 @@ class DropBoxController {
                 </svg>
                 `;
                 break;
+
             case 'audio/mp3':
             case 'audio/wma':
             case 'audio/ogg':
@@ -404,6 +405,7 @@ class DropBoxController {
                 </svg>
                 `;
                 break;
+
             case 'video/mp4':
             case 'video/quicktime':
                 return `
@@ -427,6 +429,7 @@ class DropBoxController {
                 </svg>
                     `;
                 break;
+                
             default:
                 return `
                     <svg width="160" height="160" viewBox="0 0 160 160" class="mc-icon-template-content tile__preview tile__preview--icon">
@@ -494,7 +497,7 @@ class DropBoxController {
         if (this.lastFolder) this.getFirebaseRef(this.lastFolder).off('value');
 
         this.renderNav();
-        
+
         this.readFiles();
 
     }
