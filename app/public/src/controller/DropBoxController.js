@@ -2,9 +2,11 @@ class DropBoxController {
 
     constructor() {
 
-        this.currentFolder = ['Hcode'];
+        this.currentFolder = ['CES'];
 
         this.onSelectionChange = new Event('selectionChange');
+
+        this.navEl = document.querySelector('#browse-location');
 
         this.btnSendFileEl = document.querySelector('#btn-send-file');
         this.inputFilesEl = document.querySelector('#files');
@@ -19,8 +21,11 @@ class DropBoxController {
         this.btnDelete = document.querySelector('#btn-delete');
 
         this.firebaseConection();
+
         this.initEvents();
-        this.readFiles();
+
+        this.openFolder();
+
     }
 
     firebaseConection() {
@@ -160,7 +165,7 @@ class DropBoxController {
 
                 this.uploadComplete();
 
-                console.log(error);
+                console.error(error);
             })
 
             this.modalShow();
@@ -178,9 +183,11 @@ class DropBoxController {
 
     }
 
-    getFirebaseRef() {
+    getFirebaseRef(path) {
 
-        return firebase.database().ref('files');
+        if (!path) path = this.currentFolder.join('/');
+
+        return firebase.database().ref(path);
     }
 
     modalShow(show = true) {
@@ -241,6 +248,7 @@ class DropBoxController {
 
         return Promise.all(promises);
     }
+
     uploadProgress(event, file) {
         let timespent = Date.now() - this.startUploadTime;
         let loaded = event.loaded;
@@ -274,6 +282,7 @@ class DropBoxController {
 
         return '';
     }
+
     getFileIconView(file) {
         switch (file.type) {
             case 'folder':
@@ -460,6 +469,8 @@ class DropBoxController {
 
     readFiles() {
 
+        this.lastFolder = this.currentFolder.join('/');
+
         this.getFirebaseRef().on('value', snapshot => {
 
             this.listFilesEL.innerHTML = '';
@@ -470,12 +481,94 @@ class DropBoxController {
 
                 let data = snapshotItem.val();
 
-                this.listFilesEL.appendChild(this.getFileView(data, key))
-            })
-        })
+                if (data.type) {
+
+                    this.listFilesEL.appendChild(this.getFileView(data, key));
+                };
+            });
+        });
+    };
+
+    openFolder() {
+
+        if (this.lastFolder) this.getFirebaseRef(this.lastFolder).off('value');
+
+        this.renderNav();
+        
+        this.readFiles();
+
+    }
+
+    renderNav() {
+
+        let nav = document.createElement('nav');
+
+        let path = [];
+
+        for (let i = 0; i < this.currentFolder.length; i++) {
+
+            let folderName = this.currentFolder[i];
+
+            let span = document.createElement('span');
+
+            path.push(folderName);
+
+            if ((i + 1) === this.currentFolder.length) {
+
+                span.innerHTML = folderName;
+
+            } else {
+
+                span.ClassName = 'breadcrumb-segment__wrapper';
+                span.innerHTML = `<span class="ue-effect-container uee-BreadCrumbSegment-link-0">
+                                    <a href="#" data-path="${path.join('/')}" class="breadcrumb-segment">${folderName}</a>
+                                </span>
+                                <svg width="24" height="24" viewBox="0 0 24 24" class="mc-icon-template-stateless" style="top: 4px; position: relative;">
+                                    <title>arrow-right</title>
+                                    <path d="M10.414 7.05l4.95 4.95-4.95 4.95L9 15.534 12.536 12 9 8.464z" fill="#637282" fill-rule="evenodd"></path>
+                                </svg>`;
+
+
+            }
+
+            nav.appendChild(span);
+        }
+
+        this.navEl.innerHTML = nav.innerHTML;
+
+        this.navEl.querySelectorAll('a').forEach(a => {
+
+            a.addEventListener('click', event => {
+
+                event.preventDefault();
+
+                this.currentFolder = a.dataset.path.split('/');
+
+                this.openFolder();
+
+            });
+
+        });
+
     }
 
     initEventsLi(li) {
+
+        li.addEventListener('dblclick', event => {
+
+            let file = JSON.parse(li.dataset.file);
+
+            switch (file.type) {
+
+                case 'folder':
+                    this.currentFolder.push(file.name);
+                    this.openFolder();
+                    break;
+                default:
+                    window.open('/file?path=' + file.path);
+            }
+
+        });
 
         li.addEventListener('click', e => {
 
