@@ -38,6 +38,7 @@ router.get('/file', (req, res, next) => {
 
 });
 
+/* 'DELETE' excluir arquivos e pastas */
 router.delete('/file', (req, res) => {
 
   let form = new formidable.IncomingForm({
@@ -54,20 +55,34 @@ router.delete('/file', (req, res) => {
       fs.unlink(path, error => {
 
         if (error) {
+
           res.status(400).json({
             error
           });
+
         } else {
 
           res.json({
             fields
           });
+
         }
+
       });
+
+    } else {
+
+      res.status(404).json({
+        error: 'File not found.'
+      });
+
     }
+
   });
+
 });
 
+/* 'POST' upload de arquivos*/
 router.post('/upload', (req, res, next) => {
 
   let form = new formidable.IncomingForm({
