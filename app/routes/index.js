@@ -46,7 +46,6 @@ router.delete('/file', (req, res) => {
   });
 
   form.parse(req, (err, fields, files) => {
-    git
 
     let path = './' + fields.path;
 
@@ -64,10 +63,6 @@ router.delete('/file', (req, res) => {
             fields
           });
         }
-      });
-    } else {
-      res.status(404).json({
-        error: 'File not found'
       });
     }
   });

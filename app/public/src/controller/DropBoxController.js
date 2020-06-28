@@ -86,7 +86,6 @@ class DropBoxController {
                     path: this.currentFolder.join('/')
                 });
             }
-
         });
 
         this.btnDelete.addEventListener('click', event => {
@@ -156,7 +155,14 @@ class DropBoxController {
 
                 responses.forEach(resp => {
 
-                    this.getFirebaseRef().push().set(resp.files['input-file']);
+                    this.getFirebaseRef().push().set({
+
+                        name: resp.name,
+                        type: resp.contentType,
+                        path: resp.customMetadata.downloadURL,
+                        size: resp.size
+                    });
+
                 });
 
                 this.uploadComplete();
@@ -207,8 +213,11 @@ class DropBoxController {
             ajax.onload = event => {
 
                 try {
+
                     resolve(JSON.parse(ajax.responseText));
+
                 } catch (e) {
+
                     reject(e);
                 }
             }
@@ -221,6 +230,7 @@ class DropBoxController {
             onloadstart();
 
             ajax.send(formData);
+
         });
 
     }
@@ -231,19 +241,46 @@ class DropBoxController {
 
         [...files].forEach(file => {
 
-            let formData = new FormData();
+            promises.push(new Promise((resolve, reject) => {
 
-            formData.append('input-file', file);
+                let fileRef = firebase.storage().ref(this.currentFolder.join('./')).child(file.name);
 
-            promises.push(this.ajax('/upload', 'POST', formData, () => {
+                let task = fileRef.put(file);
 
-                this.uploadProgress(event, file);
+                task.on('state_changed', snapshot => {
 
-            }, () => {
+                    this.uploadProgress({
+                        loaded: snapshot.bytesTransferred,
+                        total: snapshot.totalBytes
+                    }, file);
 
-                this.startUploadTime = Date.now();
+                }, error => {
+
+                    console.error(error);
+                    reject(error);
+
+                }, () => {
+
+                    task.snapshot.ref.getDownloadURL().then(downloadURL => {
+
+                        task.snapshot.ref.updateMetadata({ customMetadata: { downloadURL } }).then(metadata => {
+
+                            resolve(metadata)
+
+
+                        }).catch(error => {
+
+                            reject(error);
+                        });
+
+
+                    });
+
+                });
+
 
             }));
+
         });
 
         return Promise.all(promises);
@@ -429,7 +466,7 @@ class DropBoxController {
                 </svg>
                     `;
                 break;
-                
+
             default:
                 return `
                     <svg width="160" height="160" viewBox="0 0 160 160" class="mc-icon-template-content tile__preview tile__preview--icon">
@@ -568,7 +605,7 @@ class DropBoxController {
                     this.openFolder();
                     break;
                 default:
-                    window.open('/file?path=' + file.path);
+                    window.open(file.path);
             }
 
         });
